@@ -1,0 +1,282 @@
+/* ==============================
+   INTRO — Unified Hero + Skills + Certs
+   ============================== */
+.intro {
+  position: relative;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* ===== ANIMATED BACKGROUND ORBS ===== */
+.intro__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.intro__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.5;
+}
+
+.intro__orb--1 {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+  animation: float1 20s ease-in-out infinite;
+}
+
+.intro__orb--2 {
+  width: 500px;
+  height: 500px;
+  bottom: 30%;
+  left: -150px;
+  background: radial-gradient(circle, rgba(168, 85, 186, 0.25), transparent 70%);
+  animation: float2 25s ease-in-out infinite;
+}
+
+.intro__orb--3 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  right: 20%;
+  background: radial-gradient(circle, rgba(233, 42, 103, 0.2), transparent 70%);
+  animation: float3 22s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-60px, 80px); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(80px, -50px); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-40px, -60px); }
+}
+
+/* ===== HERO BLOCK ===== */
+.intro__hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.intro__name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(6rem, 18vw, 14rem);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.08em;
+
+  /* Gradient text mask */
+  background: conic-gradient(
+    from 180deg at 50% 50%,
+    var(--bg) 0deg,
+    #3b82f6 55deg,
+    #a855f7 120deg,
+    #ec4899 160deg,
+    var(--bg) 200deg,
+    var(--bg) 360deg
+  );
+  background-size: 200% 200%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  will-change: transform, background-position;
+}
+
+.intro__subtitle {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.intro__role {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.intro__divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--glow-accent), #a855f7);
+  border-radius: 2px;
+}
+
+.intro__tagline {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+}
+
+.intro__scroll {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ===== SECTION LABELS ===== */
+.intro__section {
+  position: relative;
+  z-index: 2;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.section-label {
+  margin-bottom: 2.5rem;
+}
+
+.section-label .label {
+  display: block;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, var(--glow-accent), #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-label .heading-2 {
+  color: var(--text);
+}
+
+/* ===== SKILLS GRID ===== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.skill-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s, transform 0.3s, background 0.6s;
+}
+
+.skill-item:hover {
+  border-color: var(--glass-border-hover);
+  transform: translateY(-3px);
+}
+
+.skill-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(168,85,246,0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--glow-accent);
+}
+
+.skill-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+}
+
+.skill-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ===== CERTIFICATIONS ===== */
+.cert-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.cert-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s, transform 0.3s, background 0.6s;
+}
+
+.cert-card:hover {
+  border-color: var(--glass-border-hover);
+  transform: translateY(-3px);
+}
+
+.cert-icon {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cert-code {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cert-title {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.3;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .cert-row { grid-template-columns: 1fr; }
+  .cert-card { flex-direction: column; align-items: flex-start; }
+}

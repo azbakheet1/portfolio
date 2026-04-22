@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ==============================
+   DARK THEME (default)
+   ============================== */
+:root,
+[data-theme="dark"] {
+  --bg: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-card: rgba(25, 25, 25, 0.6);
+  --text: #ffffff;
+  --text-dim: #888888;
+  --text-muted: #666666;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.2);
+  --glow-accent: #22d3ee;
+  --hero-gradient-start: #000000;
+  --hero-gradient-mid: #2a8af6;
+  --hero-gradient-end: #e92a67;
+  --scrollbar-thumb: #333;
+  --scrollbar-thumb-hover: #555;
+  --iframe-bg: #0a0a0a;
+  --pill-bg: rgba(255, 255, 255, 0.03);
+  --toggle-bg: rgba(255, 255, 255, 0.06);
+  --toggle-hover: rgba(255, 255, 255, 0.12);
+  --contact-bg: #ffffff;
+  --contact-text: #000000;
+}
+
+/* ==============================
+   LIGHT THEME
+   ============================== */
+[data-theme="light"] {
+  --bg: #f8f8f8;
+  --bg-surface: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --text: #111111;
+  --text-dim: #555555;
+  --text-muted: #888888;
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-hover: rgba(0, 0, 0, 0.18);
+  --glow-accent: #0891b2;
+  --hero-gradient-start: #f8f8f8;
+  --hero-gradient-mid: #2a8af6;
+  --hero-gradient-end: #e92a67;
+  --scrollbar-thumb: #ccc;
+  --scrollbar-thumb-hover: #aaa;
+  --iframe-bg: #ffffff;
+  --pill-bg: rgba(0, 0, 0, 0.04);
+  --toggle-bg: rgba(0, 0, 0, 0.06);
+  --toggle-hover: rgba(0, 0, 0, 0.12);
+  --contact-bg: #111111;
+  --contact-text: #ffffff;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  transition: background 0.6s ease, color 0.6s ease;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+/* ==============================
+   LAYOUT UTILS
+   ============================== */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-spacer { padding: 8rem 0; }
+.text-center { text-align: center; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* ==============================
+   TYPOGRAPHY
+   ============================== */
+.display {
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.heading-1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.heading-2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.heading-3 { font-size: 1.4rem; font-weight: 500; }
+
+.body-lg {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+}
+
+.gradient-label {
+  background: linear-gradient(90deg, var(--glow-accent), #06b6d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-label {
+  margin-bottom: 2.5rem;
+}
+
+.section-label .heading-2 {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+/* ==============================
+   COMPONENTS
+   ============================== */
+.bento-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.6s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card:hover {
+  border-color: var(--glass-border-hover);
+  transform: translateY(-4px);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--glass-border);
+  background: var(--pill-bg);
+  backdrop-filter: blur(8px);
+  color: var(--text-dim);
+  transition: background 0.6s ease, border-color 0.6s ease, color 0.6s ease;
+}
+
+/* ==============================
+   THEME TOGGLE
+   ============================== */
+.theme-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--toggle-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: background 0.3s, transform 0.3s, border-color 0.3s;
+}
+
+.theme-toggle:hover {
+  background: var(--toggle-hover);
+  transform: scale(1.1);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Sun/Moon icon handles */
+.theme-toggle svg {
+  transition: transform 0.4s ease, opacity 0.3s;
+}
+
+/* ==============================
+   AMBIENT GLOW (behind project slides)
+   ============================== */
+.proj-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 1.5s ease;
+}
+
+.proj-ambient__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  will-change: transform;
+  transition: background 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.proj-ambient__orb--1 {
+  width: 50%;
+  height: 70%;
+  top: -10%;
+  left: -5%;
+}
+
+.proj-ambient__orb--2 {
+  width: 40%;
+  height: 50%;
+  bottom: -10%;
+  right: -5%;
+}
+
+/* ==============================
+   SCROLLBAR
+   ============================== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }

@@ -1,0 +1,103 @@
+.story {
+  position: relative;
+  z-index: 10;
+}
+
+/* ==== BENTO GRID ====
+   Uses explicit grid-template-areas for precise control.
+   No wasted space, tightly packed. */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "intro intro  dax   sql"
+    "drill tooltip ai    ai";
+  gap: 1rem;
+  perspective: 1200px;
+}
+
+/* Assign each card to its area */
+.bento-card[data-id="intro"]   { grid-area: intro; }
+.bento-card[data-id="dax"]     { grid-area: dax; }
+.bento-card[data-id="sql"]     { grid-area: sql; }
+.bento-card[data-id="drill"]   { grid-area: drill; }
+.bento-card[data-id="tooltip"] { grid-area: tooltip; }
+.bento-card[data-id="ai"]      { grid-area: ai; }
+
+/* Content layout inside cards */
+.bento-card {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 160px;
+}
+
+/* The hero "intro" card gets special gradient treatment */
+.bento-card[data-id="intro"] {
+  padding: 2.5rem;
+  background: radial-gradient(circle at top left, rgba(34,211,238,0.08), transparent 60%), var(--bg-card);
+}
+
+/* Subtle highlight on top-left edge — simulates a glass reflection */
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 40%) border-box;
+  pointer-events: none;
+}
+
+.bento-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.bento-icon {
+  margin-bottom: auto;
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+
+.bento-card:hover .bento-icon {
+  color: var(--text);
+}
+
+.accent-blue {
+  color: var(--glow-accent);
+}
+
+.bento-card .body-lg {
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      "intro intro"
+      "dax   sql"
+      "drill tooltip"
+      "ai    ai";
+  }
+}
+
+@media (max-width: 640px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "dax"
+      "sql"
+      "drill"
+      "tooltip"
+      "ai";
+  }
+}

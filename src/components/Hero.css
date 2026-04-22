@@ -1,0 +1,146 @@
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background ambient orbs */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.4;
+}
+
+.hero__orb--1 {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -100px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+  animation: heroFloat1 20s ease-in-out infinite;
+}
+
+.hero__orb--2 {
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  left: -150px;
+  background: radial-gradient(circle, rgba(168, 85, 246, 0.25), transparent 70%);
+  animation: heroFloat2 25s ease-in-out infinite;
+}
+
+@keyframes heroFloat1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-60px, 80px); }
+}
+@keyframes heroFloat2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(80px, -50px); }
+}
+
+.hero__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  z-index: 2;
+}
+
+/* Gradient text */
+.hero__name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: -0.08em;
+
+  /* Full-coverage gradient — every letter is visible */
+  background: linear-gradient(
+    135deg,
+    #22d3ee 0%,
+    #06b6d4 30%,
+    #0891b2 60%,
+    #22d3ee 100%
+  );
+  background-size: 200% 200%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  will-change: transform, background-position;
+}
+
+.hero__letter {
+  display: inline-block;
+}
+
+/* Blinking cursor */
+.hero__cursor {
+  display: inline-block;
+  color: #22d3ee;
+  font-weight: 300;
+  margin-left: -0.05em;
+  /* The cursor doesn't use gradient clip */
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  -webkit-text-fill-color: #22d3ee;
+}
+
+.hero__subtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.hero__role {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.hero__divider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #22d3ee, #06b6d4);
+  border-radius: 2px;
+}
+
+.hero__tagline {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .hero__name { background-size: 150% 150%; }
+}
