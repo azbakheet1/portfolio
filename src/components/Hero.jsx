@@ -20,30 +20,30 @@ const Hero = () => {
 
     const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 
-    // Typewriter: reveal each letter
+    // Typewriter: reveal each letter — FAST
     letters.forEach((letter, i) => {
-      tl.to(letter, { opacity: 1, duration: 0.05 }, 0.3 + i * 0.12);
+      tl.to(letter, { opacity: 1, duration: 0.04 }, 0.1 + i * 0.05);
     });
 
-    // Blink cursor then hide
+    // Blink cursor briefly then hide
     tl.to(cursor, {
-      opacity: 0, repeat: 5, yoyo: true,
-      duration: 0.35, ease: 'steps(1)',
-    }, '+=0.15');
-    tl.to(cursor, { opacity: 0, duration: 0.3 });
+      opacity: 0, repeat: 3, yoyo: true,
+      duration: 0.25, ease: 'steps(1)',
+    }, '+=0.05');
+    tl.to(cursor, { opacity: 0, duration: 0.2 });
 
-    // Subtitle entrance
+    // Subtitle entrance — appears quickly
     tl.fromTo(subtitleRef.current.children,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: 'power3.out' },
-      '-=0.3'
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.08, duration: 0.5, ease: 'power3.out' },
+      '-=0.6'
     );
 
-    // Scroll prompt
+    // Scroll prompt — fades in fast
     tl.fromTo(scrollRef.current,
       { opacity: 0 },
-      { opacity: 1, duration: 1.5 },
-      '-=0.5'
+      { opacity: 1, duration: 0.8 },
+      '-=0.3'
     );
 
     // Mouse parallax

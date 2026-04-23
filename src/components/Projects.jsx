@@ -15,12 +15,14 @@ const Projects = () => {
   const triggerRef = useRef(null);
   const trackRef = useRef(null);
 
-  /* ---- Horizontal scroll (desktop only) ---- */
+  /* ---- Horizontal scroll (desktop only) with snap ---- */
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
     const ctx = gsap.context(() => {
+      const slides = trackRef.current.querySelectorAll('.proj-slide');
+      const numSlides = slides.length;
       const amountToScroll = trackRef.current.offsetWidth - window.innerWidth;
 
       ScrollTrigger.create({
@@ -32,7 +34,12 @@ const Projects = () => {
           x: -amountToScroll,
           ease: 'none',
         }),
-        scrub: 1,
+        scrub: 0.6,
+        snap: {
+          snapTo: 1 / (numSlides - 1),
+          duration: { min: 0.25, max: 0.6 },
+          ease: 'power2.inOut',
+        },
         invalidateOnRefresh: true,
       });
 
@@ -56,12 +63,10 @@ const Projects = () => {
           wrapper.style.setProperty('--iframe-scale', scale);
           wrapper.style.height = `${nh * scale}px`;
         } else {
-          wrapper.style.height = '';
-          const containerH = wrapper.offsetHeight;
-          const scaleW = containerW / nw;
-          const scaleH = containerH / nh;
-          const scale = Math.min(scaleW, scaleH);
+          // Scale to fill width — overflow hidden crops any extra height
+          const scale = containerW / nw;
           wrapper.style.setProperty('--iframe-scale', scale);
+          wrapper.style.height = '';  // Let flex handle it
         }
       });
     };
