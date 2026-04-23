@@ -173,11 +173,11 @@
 .iframe-wrapper iframe {
   position: absolute;
   top: 0;
-  left: 0;
-  width: var(--native-w, 1600px);
-  height: var(--native-h, 900px);
-  transform-origin: top left;
-  transform: scale(var(--iframe-scale, 1));
+  left: 50%;
+  width: var(--native-w, 1920px);
+  height: var(--native-h, 1080px);
+  transform-origin: top center;
+  transform: translateX(-50%) scale(var(--iframe-scale, 1));
   border: none;
 }
 
