@@ -9,14 +9,14 @@
 const config = {
 
   // ===== PERSONAL INFO =====
-  name: 'Abdullah Barreeg',
-  heroDisplay: 'Abdullah Barreeg.',
+  name: 'Abdulaziz Bakheet',
+  heroDisplay: 'Abdulaziz Bakheet.',
   role: 'Strategic Data Analyst',
   tagline: 'Transforming raw complexity into spatial clarity.',
   footerTagline: 'Data architecture & spatial design.',
 
   // ===== SOCIAL / CONTACT =====
-  email: '',                       // e.g. 'hello@abdullahbarreeg.com'
+  email: '',                       // e.g. 'hello@abdulazizbakheet.com'
   github: 'https://github.com/',   // Your GitHub URL
   linkedin: 'https://linkedin.com/in/', // Your LinkedIn URL
   location: 'Global / Remote',
