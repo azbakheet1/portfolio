@@ -15,38 +15,66 @@ const Projects = () => {
   const triggerRef = useRef(null);
   const trackRef = useRef(null);
 
-  /* ---- Horizontal scroll (desktop only) with block-snap ---- */
+  /* ---- Page-style horizontal scroll (desktop only) ---- */
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
-    const ctx = gsap.context(() => {
-      const slides = trackRef.current.querySelectorAll('.proj-slide');
-      const numSlides = slides.length;
-      const amountToScroll = trackRef.current.offsetWidth - window.innerWidth;
+    const slides = trackRef.current.querySelectorAll('.proj-slide');
+    const numSlides = slides.length;
+    let current = 0;
+    let isAnimating = false;
 
+    // Pin the section
+    const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: triggerRef.current,
         start: 'top top',
-        end: () => `+=${amountToScroll}`,
+        end: () => `+=${window.innerHeight * numSlides}`,
         pin: true,
-        animation: gsap.to(trackRef.current, {
-          x: -amountToScroll,
-          ease: 'none',
-        }),
-        scrub: 1,
-        snap: {
-          snapTo: 1 / (numSlides - 1),   // snap to each slide
-          duration: { min: 0.4, max: 0.8 },
-          delay: 0.15,                     // small delay before snapping
-          ease: 'power1.inOut',
-        },
         invalidateOnRefresh: true,
       });
-
     }, triggerRef);
 
-    return () => ctx.revert();
+    // Move to a specific slide
+    const goToSlide = (index) => {
+      if (index < 0 || index >= numSlides || isAnimating) return;
+      isAnimating = true;
+      current = index;
+
+      gsap.to(trackRef.current, {
+        x: -current * window.innerWidth,
+        duration: 0.6,
+        ease: 'power2.inOut',
+        onComplete: () => { isAnimating = false; },
+      });
+    };
+
+    // Wheel handler — one tick = one page
+    const onWheel = (e) => {
+      // Only capture when the section is pinned (in viewport)
+      const rect = triggerRef.current.getBoundingClientRect();
+      if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
+
+      // If at first slide scrolling up, or last slide scrolling down — let natural scroll happen
+      if (e.deltaY < 0 && current === 0) return;
+      if (e.deltaY > 0 && current === numSlides - 1) return;
+
+      e.preventDefault();
+
+      if (e.deltaY > 0) {
+        goToSlide(current + 1);
+      } else if (e.deltaY < 0) {
+        goToSlide(current - 1);
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      ctx.revert();
+    };
   }, []);
 
   /* ---- Iframe scaling: render at native res, CSS-scale to fit container ---- */
