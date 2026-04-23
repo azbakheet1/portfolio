@@ -15,7 +15,7 @@ const Projects = () => {
   const triggerRef = useRef(null);
   const trackRef = useRef(null);
 
-  /* ---- Horizontal scroll (desktop only) with snap ---- */
+  /* ---- Horizontal scroll (desktop only) with block-snap ---- */
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
@@ -34,11 +34,12 @@ const Projects = () => {
           x: -amountToScroll,
           ease: 'none',
         }),
-        scrub: 0.6,
+        scrub: 1,
         snap: {
-          snapTo: 1 / (numSlides - 1),
-          duration: { min: 0.25, max: 0.6 },
-          ease: 'power2.inOut',
+          snapTo: 1 / (numSlides - 1),   // snap to each slide
+          duration: { min: 0.4, max: 0.8 },
+          delay: 0.15,                     // small delay before snapping
+          ease: 'power1.inOut',
         },
         invalidateOnRefresh: true,
       });
@@ -63,10 +64,13 @@ const Projects = () => {
           wrapper.style.setProperty('--iframe-scale', scale);
           wrapper.style.height = `${nh * scale}px`;
         } else {
-          // Scale to fill width — overflow hidden crops any extra height
-          const scale = containerW / nw;
-          wrapper.style.setProperty('--iframe-scale', scale);
+          // Fit within BOTH width and height — bottom bar stays visible
           wrapper.style.height = '';  // Let flex handle it
+          const containerH = wrapper.offsetHeight;
+          const scaleW = containerW / nw;
+          const scaleH = containerH / nh;
+          const scale = Math.min(scaleW, scaleH);
+          wrapper.style.setProperty('--iframe-scale', scale);
         }
       });
     };
