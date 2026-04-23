@@ -23,7 +23,8 @@ const Projects = () => {
     const slides = trackRef.current.querySelectorAll('.proj-slide');
     const numSlides = slides.length;
     let current = 0;
-    let isAnimating = false;
+    let locked = false;        // true while animating + cooldown
+    let exitReady = false;     // true after reaching edge and cooldown expired
 
     // Pin the section
     const ctx = gsap.context(() => {
@@ -38,28 +39,52 @@ const Projects = () => {
 
     // Move to a specific slide
     const goToSlide = (index) => {
-      if (index < 0 || index >= numSlides || isAnimating) return;
-      isAnimating = true;
+      if (index < 0 || index >= numSlides || locked) return;
+      locked = true;
+      exitReady = false;
       current = index;
 
       gsap.to(trackRef.current, {
         x: -current * window.innerWidth,
-        duration: 0.6,
+        duration: 0.55,
         ease: 'power2.inOut',
-        onComplete: () => { isAnimating = false; },
+        onComplete: () => {
+          // Cooldown — prevents double-scroll skipping
+          setTimeout(() => { locked = false; }, 150);
+        },
       });
     };
 
-    // Wheel handler — one tick = one page
+    // Wheel handler — one tick = one page, locked between pages
     const onWheel = (e) => {
       // Only capture when the section is pinned (in viewport)
       const rect = triggerRef.current.getBoundingClientRect();
       if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
 
-      // If at first slide scrolling up, or last slide scrolling down — let natural scroll happen
-      if (e.deltaY < 0 && current === 0) return;
-      if (e.deltaY > 0 && current === numSlides - 1) return;
+      // If locked (animating or cooldown), eat the event
+      if (locked) {
+        e.preventDefault();
+        return;
+      }
 
+      // Edge detection — need TWO scrolls at edge to exit
+      const atStart = current === 0 && e.deltaY < 0;
+      const atEnd = current === numSlides - 1 && e.deltaY > 0;
+
+      if (atStart || atEnd) {
+        if (exitReady) {
+          // Second scroll at edge — release to natural scroll
+          exitReady = false;
+          return;
+        }
+        // First scroll at edge — set flag and block
+        exitReady = true;
+        e.preventDefault();
+        return;
+      }
+
+      // Normal navigation — reset exit flag
+      exitReady = false;
       e.preventDefault();
 
       if (e.deltaY > 0) {
