@@ -7,9 +7,9 @@ import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* Native resolution the iframe renders at — dashboards are designed for ~1600×900 */
-const NATIVE_W = 1600;
-const NATIVE_H = 900;
+/* Default native resolution — override per-project via nativeW/nativeH in config */
+const DEFAULT_W = 1920;
+const DEFAULT_H = 1080;
 
 const Projects = () => {
   const triggerRef = useRef(null);
@@ -47,19 +47,19 @@ const Projects = () => {
       const isMobile = window.innerWidth <= 768;
 
       document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
+        const nw = parseInt(wrapper.dataset.nativeW) || DEFAULT_W;
+        const nh = parseInt(wrapper.dataset.nativeH) || DEFAULT_H;
         const containerW = wrapper.offsetWidth;
 
         if (isMobile) {
-          // Mobile: no flex height — set it from aspect ratio
-          const scale = containerW / NATIVE_W;
+          const scale = containerW / nw;
           wrapper.style.setProperty('--iframe-scale', scale);
-          wrapper.style.height = `${NATIVE_H * scale}px`;
+          wrapper.style.height = `${nh * scale}px`;
         } else {
-          // Desktop: flex gives height, scale to fit both dimensions
-          wrapper.style.height = '';  // Let flex handle it
+          wrapper.style.height = '';
           const containerH = wrapper.offsetHeight;
-          const scaleW = containerW / NATIVE_W;
-          const scaleH = containerH / NATIVE_H;
+          const scaleW = containerW / nw;
+          const scaleH = containerH / nh;
           const scale = Math.min(scaleW, scaleH);
           wrapper.style.setProperty('--iframe-scale', scale);
         }
@@ -112,7 +112,15 @@ const Projects = () => {
                       <i></i><i></i><i></i>
                     </div>
                   </div>
-                  <div className="iframe-wrapper">
+                  <div
+                    className="iframe-wrapper"
+                    data-native-w={p.nativeW || DEFAULT_W}
+                    data-native-h={p.nativeH || DEFAULT_H}
+                    style={{
+                      '--native-w': `${p.nativeW || DEFAULT_W}px`,
+                      '--native-h': `${p.nativeH || DEFAULT_H}px`,
+                    }}
+                  >
                     <iframe
                       title={p.title}
                       src={`${p.iframe}&navContentPaneEnabled=false&filterPaneEnabled=false`}

@@ -174,8 +174,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 1600px;
-  height: 900px;
+  width: var(--native-w, 1600px);
+  height: var(--native-h, 900px);
   transform-origin: top left;
   transform: scale(var(--iframe-scale, 1));
   border: none;

@@ -60,6 +60,8 @@ const config = {
       glow2: 'rgba(179, 170, 153, 0.35)',
       iframe: 'https://app.powerbi.com/view?r=eyJrIjoiOTM4MzVkZmUtZjQ0OC00Yzk4LThjNTEtZmY1NTY5YzI5ZWM2IiwidCI6IjIwYTQ4N2E1LWI0OGYtNDgyYS04NGQ3LTE0NDkzMGQxYjk5YyIsImMiOjl9',
       video: import.meta.env.BASE_URL + 'videos/Retailes2.mp4',
+      nativeW: 2560,
+      nativeH: 1440,
     },
     {
       id: 'accident',
@@ -71,6 +73,8 @@ const config = {
       glow2: 'rgba(158, 195, 225, 0.35)',
       iframe: 'https://app.powerbi.com/view?r=eyJrIjoiOWI2MWUxMjctNDdhMy00ZmI0LThhMTMtODJiYjBiZGZhZjEzIiwidCI6IjIwYTQ4N2E1LWI0OGYtNDgyYS04NGQ3LTE0NDkzMGQxYjk5YyIsImMiOjl9',
       video: import.meta.env.BASE_URL + 'videos/accident.mp4',
+      nativeW: 2560,
+      nativeH: 1440,
     },
     {
       id: 'hospital',
@@ -82,6 +86,8 @@ const config = {
       glow2: 'rgba(203, 168, 189, 0.35)',
       iframe: 'https://app.powerbi.com/view?r=eyJrIjoiNDFjNjIyNjgtZTQ0YS00YjFjLWIwYzAtMjFjNDI0MzdkNjAxIiwidCI6IjIwYTQ4N2E1LWI0OGYtNDgyYS04NGQ3LTE0NDkzMGQxYjk5YyIsImMiOjl9',
       video: null,
+      nativeW: 2000,
+      nativeH: 1600,
     },
     {
       id: 'hr',
@@ -93,6 +99,8 @@ const config = {
       glow2: 'rgba(94, 161, 167, 0.35)',
       iframe: 'https://app.powerbi.com/view?r=eyJrIjoiY2U0ZDE3ZDQtOWM2OS00YTkzLWE1OTEtZGFlZTRiYmY3ODE0IiwidCI6IjIwYTQ4N2E1LWI0OGYtNDgyYS04NGQ3LTE0NDkzMGQxYjk5YyIsImMiOjl9',
       video: import.meta.env.BASE_URL + 'videos/HR.mp4',
+      nativeW: 2560,
+      nativeH: 1440,
     },
   ],
 
