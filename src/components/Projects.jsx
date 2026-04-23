@@ -12,6 +12,10 @@ const Projects = () => {
   const trackRef = useRef(null);
 
   useEffect(() => {
+    // Only enable horizontal scroll on desktop
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
+
     const ctx = gsap.context(() => {
       const amountToScroll = trackRef.current.offsetWidth - window.innerWidth;
 
@@ -68,7 +72,7 @@ const Projects = () => {
                   <div className="iframe-wrapper">
                     <iframe
                       title={p.title}
-                      src={`${p.iframe}&navContentPaneEnabled=false&filterPaneEnabled=false`}
+                      src={`${p.iframe}&navContentPaneEnabled=false&filterPaneEnabled=false&fitToWidth=true`}
                       allowFullScreen={true}
                     />
                   </div>

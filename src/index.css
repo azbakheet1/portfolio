@@ -260,3 +260,39 @@ h1, h2, h3, h4, .display {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+/* ==============================
+   MOBILE RESPONSIVE
+   ============================== */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section-spacer {
+    padding: 4rem 0;
+  }
+
+  .display {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .heading-1 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  .heading-2 {
+    font-size: clamp(1.4rem, 4vw, 2rem);
+  }
+
+  .body-lg {
+    font-size: 1rem;
+  }
+
+  .theme-toggle {
+    top: 1rem;
+    right: 1rem;
+    width: 38px;
+    height: 38px;
+  }
+}
