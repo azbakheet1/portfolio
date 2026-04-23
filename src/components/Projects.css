@@ -163,10 +163,11 @@
 .iframe-wrapper {
   position: relative;
   width: 100%;
+  flex: 1;  /* Fill remaining space after the glass header on desktop */
   overflow: hidden;
   background: var(--iframe-bg);
   transition: background 0.6s ease;
-  /* height is set dynamically by JS based on scale */
+  /* On mobile, height is set by JS instead of flex */
 }
 
 .iframe-wrapper iframe {

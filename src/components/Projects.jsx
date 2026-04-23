@@ -44,11 +44,25 @@ const Projects = () => {
   /* ---- Iframe scaling: render at native res, CSS-scale to fit container ---- */
   useEffect(() => {
     const scaleIframes = () => {
+      const isMobile = window.innerWidth <= 768;
+
       document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
         const containerW = wrapper.offsetWidth;
-        const scale = containerW / NATIVE_W;
-        wrapper.style.setProperty('--iframe-scale', scale);
-        wrapper.style.height = `${NATIVE_H * scale}px`;
+
+        if (isMobile) {
+          // Mobile: no flex height — set it from aspect ratio
+          const scale = containerW / NATIVE_W;
+          wrapper.style.setProperty('--iframe-scale', scale);
+          wrapper.style.height = `${NATIVE_H * scale}px`;
+        } else {
+          // Desktop: flex gives height, scale to fit both dimensions
+          wrapper.style.height = '';  // Let flex handle it
+          const containerH = wrapper.offsetHeight;
+          const scaleW = containerW / NATIVE_W;
+          const scaleH = containerH / NATIVE_H;
+          const scale = Math.min(scaleW, scaleH);
+          wrapper.style.setProperty('--iframe-scale', scale);
+        }
       });
     };
 
