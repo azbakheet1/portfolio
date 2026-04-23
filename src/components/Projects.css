@@ -158,25 +158,25 @@
 .traffic-dots i:nth-child(3) { background: #27c93f; }
 
 /* =====================================================
-   ⬇️ IFRAME SCALING — YOUR TUNABLE VALUES ⬇️
+   ⬇️ IFRAME SCALING — JS sets --iframe-scale & height ⬇️
    ===================================================== */
 .iframe-wrapper {
   position: relative;
   width: 100%;
-  height: calc(100% - 36px);
   overflow: hidden;
   background: var(--iframe-bg);
   transition: background 0.6s ease;
+  /* height is set dynamically by JS based on scale */
 }
 
 .iframe-wrapper iframe {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  /* ⬇️ TUNE THESE TWO VALUES: */
-  width: 100%;
-  height: 100%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  width: 1600px;
+  height: 900px;
+  transform-origin: top left;
+  transform: scale(var(--iframe-scale, 1));
   border: none;
 }
 
@@ -220,19 +220,17 @@
 }
 
 /* ==============================
-   RESPONSIVE
+   RESPONSIVE — TABLET
    ============================== */
 @media (max-width: 1024px) {
   .proj-slide { padding: 2rem 1.5rem 1.5rem 1.5rem; }
   .proj-content-split { flex-direction: column; }
   .proj-video-bento { flex: 0 0 auto; height: 220px; }
-  .iframe-wrapper iframe {
-    width: 105%;
-    height: 110%;
-  }
 }
 
-/* ===== MOBILE: stack vertically, no horizontal scroll ===== */
+/* ==============================
+   RESPONSIVE — MOBILE (≤768px)
+   ============================== */
 @media (max-width: 768px) {
   .projects-trigger {
     height: auto;
@@ -258,11 +256,15 @@
   }
 
   .proj-title {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    font-size: clamp(1.4rem, 5vw, 2rem);
   }
 
   .proj-tagline {
-    font-size: 0.85rem;
+    font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+  }
+
+  .proj-label {
+    font-size: clamp(0.6rem, 2vw, 0.72rem);
   }
 
   .proj-content-split {
@@ -275,23 +277,11 @@
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   }
 
-  .iframe-wrapper {
-    /* 16:9 aspect ratio container */
-    height: 0;
-    padding-bottom: 56.25%;
-  }
-
-  .iframe-wrapper iframe {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    transform: none;
-  }
+  /* iframe-wrapper height is set by JS — no padding-bottom hack needed */
 
   .proj-video-bento {
     flex: 0 0 auto;
-    height: 200px;
+    height: clamp(160px, 30vw, 220px);
     padding: 0.8rem;
     border-radius: 14px;
   }
@@ -303,5 +293,37 @@
   .proj-ambient__orb {
     filter: blur(80px);
     opacity: 0.6;
+  }
+
+  .bento-glass-header {
+    height: 28px;
+    font-size: 0.6rem;
+  }
+
+  .traffic-dots i {
+    width: 7px;
+    height: 7px;
+  }
+}
+
+/* ==============================
+   RESPONSIVE — SMALL PHONES (≤400px)
+   ============================== */
+@media (max-width: 400px) {
+  .proj-slide {
+    padding: 1.5rem 0.75rem 2.5rem 0.75rem;
+  }
+
+  .proj-title {
+    font-size: clamp(1.2rem, 5vw, 1.6rem);
+  }
+
+  .proj-video-bento {
+    height: 150px;
+  }
+
+  .bento-glass-header {
+    height: 24px;
+    font-size: 0.55rem;
   }
 }

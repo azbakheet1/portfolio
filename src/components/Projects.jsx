@@ -7,12 +7,16 @@ import './Projects.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* Native resolution the iframe renders at — dashboards are designed for ~1600×900 */
+const NATIVE_W = 1600;
+const NATIVE_H = 900;
+
 const Projects = () => {
   const triggerRef = useRef(null);
   const trackRef = useRef(null);
 
+  /* ---- Horizontal scroll (desktop only) ---- */
   useEffect(() => {
-    // Only enable horizontal scroll on desktop
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
@@ -35,6 +39,31 @@ const Projects = () => {
     }, triggerRef);
 
     return () => ctx.revert();
+  }, []);
+
+  /* ---- Iframe scaling: render at native res, CSS-scale to fit container ---- */
+  useEffect(() => {
+    const scaleIframes = () => {
+      document.querySelectorAll('.iframe-wrapper').forEach(wrapper => {
+        const containerW = wrapper.offsetWidth;
+        const scale = containerW / NATIVE_W;
+        wrapper.style.setProperty('--iframe-scale', scale);
+        wrapper.style.height = `${NATIVE_H * scale}px`;
+      });
+    };
+
+    // Initial + debounced resize
+    scaleIframes();
+    let timeout;
+    const onResize = () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(scaleIframes, 100);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
@@ -72,7 +101,7 @@ const Projects = () => {
                   <div className="iframe-wrapper">
                     <iframe
                       title={p.title}
-                      src={`${p.iframe}&navContentPaneEnabled=false&filterPaneEnabled=false&fitToWidth=true`}
+                      src={`${p.iframe}&navContentPaneEnabled=false&filterPaneEnabled=false`}
                       allowFullScreen={true}
                     />
                   </div>

@@ -262,7 +262,7 @@ h1, h2, h3, h4, .display {
 ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 
 /* ==============================
-   MOBILE RESPONSIVE
+   MOBILE RESPONSIVE (≤768px)
    ============================== */
 @media (max-width: 768px) {
   .container {
@@ -286,7 +286,11 @@ h1, h2, h3, h4, .display {
   }
 
   .body-lg {
-    font-size: 1rem;
+    font-size: clamp(0.85rem, 2.8vw, 1rem);
+  }
+
+  .label {
+    font-size: clamp(0.6rem, 2vw, 0.75rem);
   }
 
   .theme-toggle {
@@ -294,5 +298,36 @@ h1, h2, h3, h4, .display {
     right: 1rem;
     width: 38px;
     height: 38px;
+  }
+
+  .bento-card {
+    border-radius: 18px;
+    padding: 1.4rem;
+  }
+
+  .bento-card[data-id="intro"] {
+    padding: 1.8rem;
+  }
+}
+
+/* ==============================
+   SMALL PHONES (≤400px)
+   ============================== */
+@media (max-width: 400px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .section-spacer {
+    padding: 3rem 0;
+  }
+
+  .heading-2 {
+    font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  }
+
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
   }
 }
