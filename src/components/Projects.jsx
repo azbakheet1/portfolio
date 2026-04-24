@@ -24,7 +24,6 @@ const Projects = () => {
     const numSlides = slides.length;
     let current = 0;
     let locked = false;        // true while animating + cooldown
-    let exitReady = false;     // true after reaching edge and cooldown expired
 
     // Pin the section
     const ctx = gsap.context(() => {
@@ -41,7 +40,6 @@ const Projects = () => {
     const goToSlide = (index) => {
       if (index < 0 || index >= numSlides || locked) return;
       locked = true;
-      exitReady = false;
       current = index;
 
       gsap.to(trackRef.current, {
@@ -67,24 +65,10 @@ const Projects = () => {
         return;
       }
 
-      // Edge detection — need TWO scrolls at edge to exit
-      const atStart = current === 0 && e.deltaY < 0;
-      const atEnd = current === numSlides - 1 && e.deltaY > 0;
+      // At edges — let natural scroll happen immediately
+      if (current === 0 && e.deltaY < 0) return;
+      if (current === numSlides - 1 && e.deltaY > 0) return;
 
-      if (atStart || atEnd) {
-        if (exitReady) {
-          // Second scroll at edge — release to natural scroll
-          exitReady = false;
-          return;
-        }
-        // First scroll at edge — set flag and block
-        exitReady = true;
-        e.preventDefault();
-        return;
-      }
-
-      // Normal navigation — reset exit flag
-      exitReady = false;
       e.preventDefault();
 
       if (e.deltaY > 0) {
