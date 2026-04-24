@@ -54,47 +54,47 @@ const Projects = () => {
       });
     };
 
-    // Wheel handler
+    // Wheel handler — captures events from the page AND from the overlay divs
     const onWheel = (e) => {
-      if (!st || !st.isActive) return;  // Only when section is pinned
+      if (!st) return;
 
-      // If locked, eat the event
-      if (locked) {
-        e.preventDefault();
-        return;
-      }
+      // Check if we're in the pinned zone by scroll position
+      const scrollY = window.scrollY || window.pageYOffset;
+      const inPinZone = scrollY >= st.start && scrollY <= st.end;
+      if (!inPinZone) return;
+
+      // Always prevent default while in pin zone
+      e.preventDefault();
+
+      // If locked, just eat the event
+      if (locked) return;
 
       // At first slide scrolling up — exit upward
       if (current === 0 && e.deltaY < 0) {
-        e.preventDefault();
         locked = true;
-        const exitPos = st.start - 2;
-        st.disable(false);           // unpin without resetting
-        window.scrollTo(0, exitPos);
-        ScrollTrigger.update();
-        requestAnimationFrame(() => {
-          st.enable(false);          // re-enable for next visit
+        st.disable(false);
+        window.scrollTo(0, Math.max(0, st.start - window.innerHeight));
+        // Re-enable after scroll settles
+        setTimeout(() => {
+          st.enable(false);
+          ScrollTrigger.update();
           locked = false;
-        });
+        }, 400);
         return;
       }
 
       // At last slide scrolling down — exit downward
       if (current === numSlides - 1 && e.deltaY > 0) {
-        e.preventDefault();
         locked = true;
-        const exitPos = st.end + 2;
         st.disable(false);
-        window.scrollTo(0, exitPos);
-        ScrollTrigger.update();
-        requestAnimationFrame(() => {
+        window.scrollTo(0, st.end + 2);
+        setTimeout(() => {
           st.enable(false);
+          ScrollTrigger.update();
           locked = false;
-        });
+        }, 400);
         return;
       }
-
-      e.preventDefault();
 
       if (e.deltaY > 0) {
         goToSlide(current + 1);
@@ -197,6 +197,8 @@ const Projects = () => {
                       src={`${p.iframe}&navContentPaneEnabled=false&filterPaneEnabled=false`}
                       allowFullScreen={true}
                     />
+                    {/* Overlay captures wheel events so they don't sink into the cross-origin iframe */}
+                    <div className="iframe-scroll-guard" />
                   </div>
                 </div>
 
