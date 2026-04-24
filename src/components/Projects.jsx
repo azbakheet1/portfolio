@@ -68,21 +68,21 @@ const Projects = () => {
         return;
       }
 
-      // At first slide scrolling up — jump scroll ABOVE the pin start
+      // At first slide scrolling up — teleport ABOVE the pin start
       if (current === 0 && e.deltaY < 0) {
         e.preventDefault();
         locked = true;
-        window.scrollTo({ top: st.start - 2, behavior: 'smooth' });
-        setTimeout(() => { locked = false; }, 600);
+        window.scrollTo(0, st.start - 2);
+        setTimeout(() => { locked = false; current = 0; }, 100);
         return;
       }
 
-      // At last slide scrolling down — jump scroll PAST the pin end
+      // At last slide scrolling down — teleport PAST the pin end
       if (current === numSlides - 1 && e.deltaY > 0) {
         e.preventDefault();
         locked = true;
-        window.scrollTo({ top: st.end + 2, behavior: 'smooth' });
-        setTimeout(() => { locked = false; }, 600);
+        window.scrollTo(0, st.end + 2);
+        setTimeout(() => { locked = false; current = numSlides - 1; }, 100);
         return;
       }
 
