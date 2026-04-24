@@ -170,16 +170,6 @@
   /* On mobile, height is set by JS instead of flex */
 }
 
-/* Transparent overlay — captures wheel events so they don't sink into iframe */
-.iframe-wrapper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: transparent;
-  /* pointer-events handled by JS: toggled on hover for clicks */
-}
-
 .iframe-wrapper iframe {
   position: absolute;
   top: 0;
@@ -189,6 +179,8 @@
   transform-origin: top center;
   transform: translateX(-50%) scale(var(--iframe-scale, 1));
   border: none;
+  /* Block mouse events on desktop so wheel scroll doesn't sink into iframe */
+  pointer-events: none;
 }
 
 /* --- The Video Bento --- */
@@ -286,6 +278,10 @@
   .proj-iframe-bento {
     border-radius: 14px;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .iframe-wrapper iframe {
+    pointer-events: auto;  /* Re-enable touch on mobile */
   }
 
   /* iframe-wrapper height is set by JS — no padding-bottom hack needed */
