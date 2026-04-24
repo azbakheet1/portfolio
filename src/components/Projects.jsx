@@ -65,6 +65,7 @@ const Projects = () => {
 
       // Always prevent default while in pin zone
       e.preventDefault();
+      e.stopPropagation();
 
       // If locked, just eat the event
       if (locked) return;
@@ -79,7 +80,7 @@ const Projects = () => {
           st.enable(false);
           ScrollTrigger.update();
           locked = false;
-        }, 400);
+        }, 500);
         return;
       }
 
@@ -92,7 +93,7 @@ const Projects = () => {
           st.enable(false);
           ScrollTrigger.update();
           locked = false;
-        }, 400);
+        }, 500);
         return;
       }
 
@@ -103,10 +104,15 @@ const Projects = () => {
       }
     };
 
+    // Listen on BOTH window (for scroll outside iframe) AND the trigger element
+    // in capture phase (to grab events before they reach the iframe guard div)
     window.addEventListener('wheel', onWheel, { passive: false });
+    triggerRef.current.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    const triggerEl = triggerRef.current;
 
     return () => {
       window.removeEventListener('wheel', onWheel);
+      triggerEl.removeEventListener('wheel', onWheel, { capture: true });
       ctx.revert();
     };
   }, []);
