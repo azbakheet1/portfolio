@@ -20,19 +20,23 @@ const Projects = () => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
-    const trigger = triggerRef.current;
     const slides = trackRef.current.querySelectorAll('.proj-slide');
     const numSlides = slides.length;
     let current = 0;
     let locked = false;
-    let isActive = false;  // is section in view?
+    let st = null;  // ScrollTrigger instance
 
-    // Detect when the section enters/leaves viewport
-    const observer = new IntersectionObserver(
-      ([entry]) => { isActive = entry.isIntersecting && entry.intersectionRatio > 0.9; },
-      { threshold: [0.9] }
-    );
-    observer.observe(trigger);
+    // Pin the section with ScrollTrigger
+    const ctx = gsap.context(() => {
+      st = ScrollTrigger.create({
+        trigger: triggerRef.current,
+        start: 'top top',
+        end: () => `+=${window.innerHeight * numSlides}`,
+        pin: true,
+        pinSpacing: true,
+        invalidateOnRefresh: true,
+      });
+    }, triggerRef);
 
     // Move to a specific slide
     const goToSlide = (index) => {
@@ -52,7 +56,11 @@ const Projects = () => {
 
     // Wheel handler
     const onWheel = (e) => {
-      if (!isActive) return;
+      if (!st) return;
+
+      // Only capture when pinned
+      const rect = triggerRef.current.getBoundingClientRect();
+      if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
 
       // If locked, eat the event
       if (locked) {
@@ -60,23 +68,21 @@ const Projects = () => {
         return;
       }
 
-      // At first slide scrolling up — scroll to section above
+      // At first slide scrolling up — jump scroll ABOVE the pin start
       if (current === 0 && e.deltaY < 0) {
         e.preventDefault();
-        trigger.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+        locked = true;
+        window.scrollTo({ top: st.start - 2, behavior: 'smooth' });
+        setTimeout(() => { locked = false; }, 600);
         return;
       }
 
-      // At last slide scrolling down — scroll to section below
+      // At last slide scrolling down — jump scroll PAST the pin end
       if (current === numSlides - 1 && e.deltaY > 0) {
         e.preventDefault();
-        const nextSection = trigger.nextElementSibling;
-        if (nextSection) {
-          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-        }
+        locked = true;
+        window.scrollTo({ top: st.end + 2, behavior: 'smooth' });
+        setTimeout(() => { locked = false; }, 600);
         return;
       }
 
@@ -93,7 +99,7 @@ const Projects = () => {
 
     return () => {
       window.removeEventListener('wheel', onWheel);
-      observer.disconnect();
+      ctx.revert();
     };
   }, []);
 
