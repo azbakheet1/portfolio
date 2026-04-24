@@ -32,8 +32,8 @@ const Footer = () => {
             <div style={{ marginTop: '2rem' }}>
               <span className="label">Social</span>
               <div className="social-links">
-                <a href={config.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href={config.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                {config.github && <a href={config.github} target="_blank" rel="noopener noreferrer">GitHub</a>}
+                {config.linkedin && <a href={config.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <span className="brand">{config.heroDisplay} <span className="brand-dot"></span> {new Date().getFullYear()}</span>
+          <span className="brand">{config.heroDisplay}</span>
           <span className="body-lg" style={{ fontSize: '0.8rem' }}>{config.footerTagline}</span>
         </div>
 
