@@ -170,6 +170,16 @@
   /* On mobile, height is set by JS instead of flex */
 }
 
+/* Transparent overlay — captures wheel events so they don't sink into iframe */
+.iframe-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: transparent;
+  /* pointer-events handled by JS: toggled on hover for clicks */
+}
+
 .iframe-wrapper iframe {
   position: absolute;
   top: 0;
