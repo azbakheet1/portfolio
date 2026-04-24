@@ -20,21 +20,19 @@ const Projects = () => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) return;
 
+    const trigger = triggerRef.current;
     const slides = trackRef.current.querySelectorAll('.proj-slide');
     const numSlides = slides.length;
     let current = 0;
-    let locked = false;        // true while animating + cooldown
+    let locked = false;
+    let isActive = false;  // is section in view?
 
-    // Pin the section
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: triggerRef.current,
-        start: 'top top',
-        end: () => `+=${window.innerHeight * numSlides}`,
-        pin: true,
-        invalidateOnRefresh: true,
-      });
-    }, triggerRef);
+    // Detect when the section enters/leaves viewport
+    const observer = new IntersectionObserver(
+      ([entry]) => { isActive = entry.isIntersecting && entry.intersectionRatio > 0.9; },
+      { threshold: [0.9] }
+    );
+    observer.observe(trigger);
 
     // Move to a specific slide
     const goToSlide = (index) => {
@@ -47,27 +45,40 @@ const Projects = () => {
         duration: 0.55,
         ease: 'power2.inOut',
         onComplete: () => {
-          // Cooldown — prevents double-scroll skipping
-          setTimeout(() => { locked = false; }, 150);
+          setTimeout(() => { locked = false; }, 120);
         },
       });
     };
 
-    // Wheel handler — one tick = one page, locked between pages
+    // Wheel handler
     const onWheel = (e) => {
-      // Only capture when the section is pinned (in viewport)
-      const rect = triggerRef.current.getBoundingClientRect();
-      if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
+      if (!isActive) return;
 
-      // If locked (animating or cooldown), eat the event
+      // If locked, eat the event
       if (locked) {
         e.preventDefault();
         return;
       }
 
-      // At edges — let natural scroll happen immediately
-      if (current === 0 && e.deltaY < 0) return;
-      if (current === numSlides - 1 && e.deltaY > 0) return;
+      // At first slide scrolling up — scroll to section above
+      if (current === 0 && e.deltaY < 0) {
+        e.preventDefault();
+        trigger.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+        return;
+      }
+
+      // At last slide scrolling down — scroll to section below
+      if (current === numSlides - 1 && e.deltaY > 0) {
+        e.preventDefault();
+        const nextSection = trigger.nextElementSibling;
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        }
+        return;
+      }
 
       e.preventDefault();
 
@@ -82,7 +93,7 @@ const Projects = () => {
 
     return () => {
       window.removeEventListener('wheel', onWheel);
-      ctx.revert();
+      observer.disconnect();
     };
   }, []);
 
