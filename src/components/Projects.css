@@ -180,6 +180,7 @@
   transform: translateX(-50%) scale(var(--iframe-scale, 1));
   border: none;
   z-index: 1;
+  pointer-events: none !important; /* Completely disable interaction so it never traps scroll */
 }
 
 /* Invisible overlay on top of iframe — captures wheel/mouse events
