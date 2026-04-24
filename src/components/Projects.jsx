@@ -73,12 +73,9 @@ const Projects = () => {
       // At first slide scrolling up — exit upward
       if (current === 0 && e.deltaY < 0) {
         locked = true;
-        st.disable(false);
-        window.scrollTo(0, Math.max(0, st.start - window.innerHeight));
-        // Re-enable after scroll settles
+        // Scroll slightly above the pin start
+        window.scrollTo(0, Math.max(0, st.start - 10));
         setTimeout(() => {
-          st.enable(false);
-          ScrollTrigger.update();
           locked = false;
         }, 500);
         return;
@@ -87,11 +84,9 @@ const Projects = () => {
       // At last slide scrolling down — exit downward
       if (current === numSlides - 1 && e.deltaY > 0) {
         locked = true;
-        st.disable(false);
-        window.scrollTo(0, st.end + 2);
+        // Scroll slightly below the pin end
+        window.scrollTo(0, st.end + 10);
         setTimeout(() => {
-          st.enable(false);
-          ScrollTrigger.update();
           locked = false;
         }, 500);
         return;
