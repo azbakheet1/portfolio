@@ -56,11 +56,7 @@ const Projects = () => {
 
     // Wheel handler
     const onWheel = (e) => {
-      if (!st) return;
-
-      // Only capture when pinned
-      const rect = triggerRef.current.getBoundingClientRect();
-      if (rect.top > 5 || rect.bottom < window.innerHeight - 5) return;
+      if (!st || !st.isActive) return;  // Only when section is pinned
 
       // If locked, eat the event
       if (locked) {
@@ -68,21 +64,33 @@ const Projects = () => {
         return;
       }
 
-      // At first slide scrolling up — teleport ABOVE the pin start
+      // At first slide scrolling up — exit upward
       if (current === 0 && e.deltaY < 0) {
         e.preventDefault();
         locked = true;
-        window.scrollTo(0, st.start - 2);
-        setTimeout(() => { locked = false; current = 0; }, 100);
+        const exitPos = st.start - 2;
+        st.disable(false);           // unpin without resetting
+        window.scrollTo(0, exitPos);
+        ScrollTrigger.update();
+        requestAnimationFrame(() => {
+          st.enable(false);          // re-enable for next visit
+          locked = false;
+        });
         return;
       }
 
-      // At last slide scrolling down — teleport PAST the pin end
+      // At last slide scrolling down — exit downward
       if (current === numSlides - 1 && e.deltaY > 0) {
         e.preventDefault();
         locked = true;
-        window.scrollTo(0, st.end + 2);
-        setTimeout(() => { locked = false; current = numSlides - 1; }, 100);
+        const exitPos = st.end + 2;
+        st.disable(false);
+        window.scrollTo(0, exitPos);
+        ScrollTrigger.update();
+        requestAnimationFrame(() => {
+          st.enable(false);
+          locked = false;
+        });
         return;
       }
 
