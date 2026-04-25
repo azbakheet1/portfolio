@@ -13,10 +13,10 @@ const config = {
   heroDisplay: 'Abdulaziz Bakheet',
   role: 'Strategic Data Analyst',
   tagline: 'Transforming raw complexity into spatial clarity.',
-  footerTagline: 'Data architecture & spatial design.',
+  footerTagline: 'Data Analyst',
 
   // ===== SOCIAL / CONTACT =====
-  email: '',                       // e.g. 'hello@abdulazizbakheet.com'
+  email: 'AzBakheet1@gmail.com',   // e.g. 'hello@abdulazizbakheet.com'
   github: '',                      // Your GitHub URL
   linkedin: 'https://linkedin.com/in/abdulaziz-bakheet', // Your LinkedIn URL
   location: 'Saudi Arabia & Remote',
