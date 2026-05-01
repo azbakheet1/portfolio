@@ -197,6 +197,7 @@
 .proj-video-bento {
   flex: 0 0 auto;
   width: 320px;
+  align-self: center; /* Prevent vertical stretch, center it vertically */
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
